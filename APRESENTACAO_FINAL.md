@@ -26,15 +26,15 @@
 **Falar:**
 "Nosso modelo de domínio reflete o problema real. Temos 4 entidades principais:
 
-- **Restaurant:** Representa o cliente, com dados de cadastro e autenticação
-- **Service:** Serviços digitais oferecidos (sites, redes sociais, cardápios)
-- **Order:** Pedidos realizados pelos restaurantes
-- **Message:** Sistema de chat para suporte
+- **Restaurante:** Representa o cliente, com dados de cadastro e autenticação
+- **Servico:** Serviços digitais oferecidos (sites, redes sociais, cardápios)
+- **Pedido:** Pedidos realizados pelos restaurantes
+- **Mensagem:** Sistema de chat para suporte
 
 As relações são:
-- Restaurant **tem muitos** Orders (composição)
-- Restaurant **tem muitas** Messages (composição)
-- Order **contém muitos** Services (agregação)
+- Restaurante **tem muitos** Pedidos (composição)
+- Restaurante **tem muitas** Mensagens (composição)
+- Pedido **contém muitos** Servicos(agregação)
 
 Montamos o modelo desta forma porque reflete exatamente o fluxo de negócio: restaurante contrata serviços, gera pedidos e se comunica via chat."
 
@@ -178,7 +178,7 @@ Além disso, implementamos 5 Design Patterns GoF:
 10. Boleto bancário
 11. Carnê parcelado
 
-**IMPORTANTE:** Implementamos toda a estrutura para integração com Efí Bank (SDK instalado, Factory Pattern, serviços completos), mas não conseguimos ativar a API real por falta de CNPJ. O sistema gera pagamentos simulados com QR Codes inválidos.
+**IMPORTANTE:** Implementamos toda a estrutura para integração com Efí Bank (SDK instalado, Factory Pattern, serviços completos), mas não conseguimos ativar a API real por falta de CNPJ. O sistema gera pagamentos simulados com QR Codes inválidos/dados como expirados.
 
 **Comunicação:**
 12. Chat em tempo real
@@ -298,7 +298,7 @@ Obrigado pela atenção. Estamos prontos para perguntas."
 ### Sobre Modelagem:
 
 **P: Por que escolheram essas entidades?**
-R: "Escolhemos Restaurant, Service, Order e Message porque representam os elementos centrais do negócio. Restaurant é o cliente que contrata serviços, Service representa os produtos digitais que oferecemos, Order registra as transações comerciais e Message permite comunicação para suporte. São as entidades mínimas necessárias para o sistema funcionar."
+R: "Escolhemos Restaurante, Servico, Pedido e Mensagem porque representam os elementos centrais do negócio. Restaurant é o cliente que contrata serviços, Service representa os produtos digitais que oferecemos, Order registra as transações comerciais e Message permite comunicação para suporte. São as entidades mínimas necessárias para o sistema funcionar."
 
 **P: Como as relações refletem o problema real?**
 R: "As relações espelham o fluxo de negócio: um restaurante pode fazer vários pedidos (1:N), cada pedido contém vários serviços (N:M), e restaurantes podem enviar várias mensagens para suporte (1:N). Usamos composição entre Restaurant e Order porque o pedido não existe sem o restaurante."
@@ -307,9 +307,6 @@ R: "As relações espelham o fluxo de negócio: um restaurante pode fazer vário
 R: "Composição: Restaurant-Order. Se deletarmos o restaurante, seus pedidos também são deletados (dependência forte). Agregação: Order-Service. Se deletarmos um pedido, os serviços continuam existindo no catálogo (dependência fraca)."
 
 ### Sobre Casos de Uso:
-
-**P: Quais são os atores do sistema?**
-R: "Temos 3 atores principais: Visitante (não autenticado, pode se cadastrar), Restaurante (cliente autenticado, contrata serviços) e Admin (gerencia sistema, restaurantes e pedidos). Cada ator tem permissões específicas."
 
 **P: Explique o fluxo de um caso de uso específico**
 R: "No caso 'Contratar Serviço': restaurante loga, navega pelo catálogo, adiciona serviços ao carrinho, finaliza pedido, aceita termos de uso e consentimento, escolhe forma de pagamento (PIX/boleto/cartão), sistema gera cobrança e exibe confirmação. O pedido fica visível no dashboard com status 'Pendente'."
